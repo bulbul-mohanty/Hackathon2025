@@ -1,0 +1,65 @@
+{
+  "servers": {
+    "time": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "mcp/time"],
+      "env": {}
+    },
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "Personal Access Token"
+      }
+    },
+    "mongodb": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "MDB_MCP_CONNECTION_STRING=mongodb://host.docker.internal:27017/test",
+        "mongodb/mongodb-mcp-server:latest"
+      ]
+    },
+    "mcp-atlassian": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "CONFLUENCE_URL",
+        "-e", "CONFLUENCE_USERNAME",
+        "-e", "CONFLUENCE_API_TOKEN",
+        "-e", "JIRA_URL",
+        "-e", "JIRA_USERNAME",
+        "-e", "JIRA_API_TOKEN",
+        "ghcr.io/sooperset/mcp-atlassian:latest"
+      ],
+      "env": {
+        "CONFLUENCE_URL": "https://Company-Name.atlassian.net/wiki",
+        "CONFLUENCE_USERNAME": "abc@gmail.com",
+        "CONFLUENCE_API_TOKEN": "api-token",
+        "JIRA_URL": "https://Company-Name.atlassian.net",
+        "JIRA_USERNAME": "abc@gmail.com",
+        "JIRA_API_TOKEN": "api-token"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "github_token",
+      "type": "promptString",
+      "description": "GitHub Personal Access Token",
+      "password": true
+    }
+  ]
+}
